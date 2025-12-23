@@ -18,12 +18,18 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include<string.h>
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include<string.h>
-#include<stdio.h>
+#define MAX_LEN 100
+uint8_t rx_byte;             // single incoming byte
+char rx_buffer[MAX_LEN];     // store full string
+uint16_t rx_index = 0;       // current position
+
+
 
 /* USER CODE END Includes */
 
@@ -70,7 +76,6 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	char str[32]="Hello Sunbeam\r\n";
 
   /* USER CODE END 1 */
 
@@ -94,29 +99,56 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
-  HAL_UART_Transmit(&huart2, (uint8_t *)str, strlen(str), HAL_MAX_DELAY);
-
-  strcpy(str,"DESD\r\n");
-
-  HAL_UART_Transmit(&huart2, (uint8_t *)str, strlen(str), HAL_MAX_DELAY);
+  char msg[50] = "Hello DKTE ...\r\n";
+  HAL_UART_Transmit(&huart2, ( uint8_t *)msg,strlen(msg),HAL_MAX_DELAY);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
+      /* Receive one byte (blocking polling) */
+      HAL_UART_Receive(&huart2, &rx_byte, 1, HAL_MAX_DELAY);
 
-    uint8_t len = strlen(str);
-	sprintf(str, "len = %d\r\n", len);
-	HAL_UART_Transmit(&huart2, (uint8_t *)str, strlen(str), HAL_MAX_DELAY);
+      /* Echo received byte */
+      HAL_UART_Transmit(&huart2, &rx_byte, 1, HAL_MAX_DELAY);
 
+      /* ENTER key handling */
+      if (rx_byte == '\r')
+      {
+          rx_buffer[rx_index] = '\0';   // terminate string
 
-    /* USER CODE BEGIN 3 */
+          char msg1[] = "\r\nYou sent: ";
+          HAL_UART_Transmit(&huart2, (uint8_t*)msg1, strlen(msg1), HAL_MAX_DELAY);
+          HAL_UART_Transmit(&huart2, (uint8_t*)rx_buffer, strlen(rx_buffer), HAL_MAX_DELAY);
+
+          /* Convert to uppercase */
+          strupr(rx_buffer);
+
+          char msg2[] = "\r\nUppercase: ";
+          HAL_UART_Transmit(&huart2, (uint8_t*)msg2, strlen(msg2), HAL_MAX_DELAY);
+          HAL_UART_Transmit(&huart2, (uint8_t*)rx_buffer, strlen(rx_buffer), HAL_MAX_DELAY);
+
+          char msg3[] = "\r\n";
+          HAL_UART_Transmit(&huart2, (uint8_t*)msg3, strlen(msg3), HAL_MAX_DELAY);
+
+          rx_index = 0;   // reset buffer
+      }
+      else
+      {
+          /* Store character */
+          if (rx_index < MAX_LEN - 1)
+          {
+              rx_buffer[rx_index++] = rx_byte;
+          }
+      }
   }
+
+
   /* USER CODE END 3 */
 }
+
+
 
 
 
@@ -206,12 +238,24 @@ static void MX_USART2_UART_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
   /* USER CODE BEGIN MX_GPIO_Init_1 */
 
   /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : PD12 PD13 PD14 PD15 */
+  GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 
