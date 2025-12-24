@@ -111,7 +111,7 @@ int main(void)
     uint8_t len = strlen(str);
 	sprintf(str, "len = %d\r\n", len);
 	HAL_UART_Transmit(&huart2, (uint8_t *)str, strlen(str), HAL_MAX_DELAY);
-
+  HAL_Delay(1000);
 
     /* USER CODE BEGIN 3 */
   }
