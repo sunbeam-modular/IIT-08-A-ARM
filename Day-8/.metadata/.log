@@ -312,3 +312,18 @@ Caused by: java.nio.channels.UnresolvedAddressException
 
 !ENTRY org.eclipse.cdt.core 1 0 2025-12-23 12:38:39.647
 !MESSAGE Indexed 'HAL_USART2' (19 sources, 81 headers) in 5.76 sec: 4,442 declarations; 18,507 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.0087%)
+!SESSION 2025-12-24 12:46:46.048 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-12-24 12:47:05.508
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-12-24 12:47:05.510
+!MESSAGE Log4j2 initialized with config file D:\4.IIT-ARM\IIT-08-A-ARM\Day-8\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-12-24 12:47:12.587
+!MESSAGE Started RMI Server, listening on port 41337
