@@ -60,8 +60,8 @@ all: main-build
 main-build: LCD.elf secondary-outputs
 
 # Tool invocations
-LCD.elf LCD.map: $(OBJS) $(USER_OBJS) K:\STM_WorkSpace\New_Workspace-2\LCD\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "LCD.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"K:\STM_WorkSpace\New_Workspace-2\LCD\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LCD.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+LCD.elf LCD.map: $(OBJS) $(USER_OBJS) D:\4.IIT-ARM\IIT-08-A-ARM\Day-10\HAL_LCD_LECTURE\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "LCD.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\4.IIT-ARM\IIT-08-A-ARM\Day-10\HAL_LCD_LECTURE\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LCD.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
